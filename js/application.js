@@ -1,3 +1,4 @@
+let storage = window.localStorage;
 var firebaseConfig = {
   apiKey: "AIzaSyDtRdaJwRzea8x1l1NEiMirmUuPKYyTERs",
   authDomain: "fotoshare-e4772.firebaseapp.com",

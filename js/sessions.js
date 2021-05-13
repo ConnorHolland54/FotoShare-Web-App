@@ -1,13 +1,17 @@
 
+let currentUser = null
 
   function signIn(email, password) {
     fb.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        console.log(firebase.auth().currentUser.email)
+        console.log("Signed In")
+        storage.setItem('userEmail', fb.auth().currentUser.email)
+        storage.setItem('userUID', fb.auth().currentUser.uid)
         // ...
-        return fb.auth().currentUser
+        let loginSection = document.getElementById('login-signup-form')
+        loginSection.remove()
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -19,7 +23,10 @@
   function signOut() {
     firebase.auth().signOut().then(() => {
       // Sign-out successful.
+      storage.clear()
       console.log("Signed Out")
+      createLoginSignupForm()
+      handleSignIn()
     }).catch((error) => {
       // An error happened.
     });
