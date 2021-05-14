@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
       createLoginSignupForm()
       handleSignIn()
       handleSignUp()
+  } else {
+    createHomePage()
+    hideOrShowNavBar()
   }
 })
-
 
 function createLoginSignupForm() {
     let loginSection = document.createElement('section')
@@ -71,4 +73,33 @@ function handleSignUp() {
       btn.value = "Login"
     }
   })
+}
+
+function hideOrShowNavBar() {
+  let navbar = document.getElementById('nav-bar')
+  if (storage.getItem('userUID')) {
+    navbar.hidden = false
+  } else {
+    navbar.hidden = true
+  }
+}
+
+
+function createHomePage() {
+  let homepageSection = document.createElement('section')
+
+  homepageSection.id = "homePage"
+
+  let head = document.createElement('h1')
+  head.innerText = "Hello World"
+
+  document.body.append(homepageSection)
+  homepageSection.append(head)
+
+
+}
+
+function removeHomepage() {
+  let homepage = document.getElementById('homePage')
+  homepage.remove()
 }

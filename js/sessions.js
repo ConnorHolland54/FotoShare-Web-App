@@ -9,7 +9,9 @@ let currentUser = null
         console.log("Signed In")
         storage.setItem('userEmail', fb.auth().currentUser.email)
         storage.setItem('userUID', fb.auth().currentUser.uid)
+        hideOrShowNavBar()
         removeSignIn()
+        createHomePage()
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -39,6 +41,8 @@ let currentUser = null
       // Sign-out successful.
       storage.clear()
       console.log("Signed Out")
+      hideOrShowNavBar()
+      removeHomepage()
       createLoginSignupForm()
       handleSignIn()
       handleSignUp()

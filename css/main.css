@@ -1,0 +1,11 @@
+html, body {
+  margin: 0;
+  background-color: lightBlue;
+}
+
+#homePage {
+  background-color: teal;
+  margin-top: 10px;
+  margin-right: 25%;
+  margin-left: 25%;
+}
