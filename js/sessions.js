@@ -20,6 +20,20 @@ let currentUser = null
       });
   }
 
+  function signUp(email, password) {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    // Signed in
+    var user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ..
+  });
+  }
+
   function signOut() {
     firebase.auth().signOut().then(() => {
       // Sign-out successful.
@@ -27,7 +41,15 @@ let currentUser = null
       console.log("Signed Out")
       createLoginSignupForm()
       handleSignIn()
+      handleSignUp()
     }).catch((error) => {
       // An error happened.
     });
+}
+
+
+// Fetch for creating a user
+
+configObject = {
+
 }
