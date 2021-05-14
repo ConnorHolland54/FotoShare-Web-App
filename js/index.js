@@ -28,6 +28,8 @@ function createLoginSignupForm() {
       <a>Don't have an account?</a>
     `
     loginSection.append(form)
+    let btn = document.querySelector('input[name="login"]')
+    btn.style.marginTop = '4%';
     loginSection.style.backgroundColor = 'teal';
     loginSection.style.textAlign = 'center';
     loginSection.style.marginTop = '10%';
@@ -43,11 +45,10 @@ function handleSignIn() {
     e.preventDefault();
     let email = document.querySelector('input[name=email]').value;
     let pass = document.querySelector('input[name=password]').value;
-    if (btn.value == "Login") {
-        signIn(email, pass)
-    } else {
-
+    if (btn.value == "Sign Up") {
+        signUp(email, pass)
     }
+      signIn(email, pass)
   })
 }
 

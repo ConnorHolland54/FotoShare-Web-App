@@ -9,9 +9,7 @@ let currentUser = null
         console.log("Signed In")
         storage.setItem('userEmail', fb.auth().currentUser.email)
         storage.setItem('userUID', fb.auth().currentUser.uid)
-        // ...
-        let loginSection = document.getElementById('login-signup-form')
-        loginSection.remove()
+        removeSignIn()
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -24,7 +22,9 @@ let currentUser = null
     firebase.auth().createUserWithEmailAndPassword(email, password)
   .then((userCredential) => {
     // Signed in
-    var user = userCredential.user;
+    var user = userCredential.user
+    CreateUser(email, fb.auth().currentUser.uid)
+    removeSignIn()
     // ...
   })
   .catch((error) => {
@@ -47,9 +47,29 @@ let currentUser = null
     });
 }
 
+function removeSignIn() {
+  let loginSection = document.getElementById('login-signup-form')
+  loginSection.remove()
+}
+
 
 // Fetch for creating a user
+function CreateUser(email, uid) {
+  config = {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    },
+    body: JSON.stringify({
+      email: email,
+      uid: uid
+    })
+  }
 
-configObject = {
+  fetch("http://localhost:3000/users", config)
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+  .catch(error => console.log(error))
 
 }
