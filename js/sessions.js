@@ -9,14 +9,14 @@ let currentUser = null
         console.log("Signed In")
         storage.setItem('userEmail', fb.auth().currentUser.email)
         storage.setItem('userUID', fb.auth().currentUser.uid)
-        hideOrShowNavBar()
-        removeSignIn()
-        createHomePage()
+        removeSignIn();
+        createHomePage();
+        navbar.hidden = false;
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(errorMessage)
+        console.log(errorMessage);
       });
   }
 
@@ -41,11 +41,11 @@ let currentUser = null
       // Sign-out successful.
       storage.clear()
       console.log("Signed Out")
-      hideOrShowNavBar()
       removeHomepage()
       createLoginSignupForm()
       handleSignIn()
       handleSignUp()
+      navbar.hidden = true;
     }).catch((error) => {
       // An error happened.
     });

@@ -1,12 +1,16 @@
+
+let navbar = document.getElementById('nav-bar')
+
 document.addEventListener('DOMContentLoaded', () => {
-  if (!storage.getItem('userUID')) {
-      createLoginSignupForm()
-      handleSignIn()
-      handleSignUp()
-  } else {
+  if (storage.getItem('userUID')) {
+    navbar.hidden = false
     createHomePage()
-    hideOrShowNavBar()
+  } else {
+    createLoginSignupForm()
+    handleSignIn()
+    handleSignUp()
   }
+  logoutListener()
 })
 
 function createLoginSignupForm() {
@@ -75,13 +79,12 @@ function handleSignUp() {
   })
 }
 
-function hideOrShowNavBar() {
-  let navbar = document.getElementById('nav-bar')
-  if (storage.getItem('userUID')) {
-    navbar.hidden = false
-  } else {
-    navbar.hidden = true
-  }
+function logoutListener() {
+  let btn = document.getElementById('logout-btn')
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    signOut()
+  })
 }
 
 
@@ -91,12 +94,14 @@ function createHomePage() {
   homepageSection.id = "homePage"
 
   let head = document.createElement('h1')
-  head.innerText = "Hello World"
+  head.innerText = storage.getItem('userEmail')
 
   document.body.append(homepageSection)
   homepageSection.append(head)
 
 
+  homepageSection.style.backgroundColor = "teal";
+  homepageSection.style.height = "90%";
 }
 
 function removeHomepage() {
