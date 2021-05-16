@@ -7,10 +7,7 @@ let currentUser = null
         // Signed in
         var user = userCredential.user;
         console.log("Signed In")
-        storage.setItem('userEmail', fb.auth().currentUser.email)
-        storage.setItem('userUID', fb.auth().currentUser.uid)
-        removeSignIn();
-        createHomePage();
+        redirectToHome()
         navbar.hidden = false;
       })
       .catch((error) => {
@@ -26,7 +23,7 @@ let currentUser = null
     // Signed in
     var user = userCredential.user
     CreateUser(email, fb.auth().currentUser.uid)
-    removeSignIn()
+    redirectToHome()
     // ...
   })
   .catch((error) => {
@@ -41,7 +38,6 @@ let currentUser = null
       // Sign-out successful.
       storage.clear()
       console.log("Signed Out")
-      removeHomepage()
       createLoginSignupForm()
       handleSignIn()
       handleSignUp()
@@ -49,6 +45,12 @@ let currentUser = null
     }).catch((error) => {
       // An error happened.
     });
+}
+
+function redirectToHome() {
+  storage.setItem('userEmail', fb.auth().currentUser.email)
+  storage.setItem('userUID', fb.auth().currentUser.uid)
+  removeSignIn();
 }
 
 function removeSignIn() {

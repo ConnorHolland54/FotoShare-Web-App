@@ -1,10 +1,13 @@
-
+// Variables
+let homepageSection = document.createElement('section')
 let navbar = document.getElementById('nav-bar')
+// End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
   if (storage.getItem('userUID')) {
     navbar.hidden = false
-    createHomePage()
+    // createHomePage()
+    posts().then(data => console.log(data))
   } else {
     createLoginSignupForm()
     handleSignIn()
@@ -31,7 +34,7 @@ function createLoginSignupForm() {
         <input type="password" name="password-two"><br>
       </div>
       <input type="submit" name="login" value="Login"><br><br>
-      <a>Don't have an account?</a>
+      <a>Don't have an account?</a><br><a>Forgot password?</a>
     `
     loginSection.append(form)
     let btn = document.querySelector('input[name="login"]')
@@ -89,7 +92,6 @@ function logoutListener() {
 
 
 function createHomePage() {
-  let homepageSection = document.createElement('section')
 
   homepageSection.id = "homePage"
 
@@ -108,3 +110,26 @@ function removeHomepage() {
   let homepage = document.getElementById('homePage')
   homepage.remove()
 }
+
+
+// Fetch Posts Test
+async function hello() {
+  return await fetch("http://localhost:3000/posts")
+  .then(resp => resp.json())
+  .then((data) => data)
+}
+
+async function posts() {
+  return await hello().then((data) => {
+    let posts = [];
+    for(let post of data) {
+      let p = new Post(post.id, post.image_url, post.user_id)
+      p.addComments(post.comments)
+      posts.push(p)
+    }
+    return posts
+  })
+}
+
+
+//

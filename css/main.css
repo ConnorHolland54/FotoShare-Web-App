@@ -3,3 +3,30 @@ html, body {
   padding: 0;
   background-color: lightBlue;
 }
+
+.posts-section {
+  background-color: lightGrey;
+  height: 80%;
+  margin-top: 20px;
+}
+
+#col1 {
+  background-color: teal;
+  overflow: scroll;
+}
+
+#col1::-webkit-scrollbar {
+  display: none;
+}
+
+.post {
+  background-color: white;
+  margin-top: 10px;
+  margin-left: 25%;
+  margin-right: 25%;
+  height: 30%;
+}
+
+.comments-btn {
+  height: 30px;
+}
