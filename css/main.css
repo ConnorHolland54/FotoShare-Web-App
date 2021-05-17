@@ -5,13 +5,13 @@ html, body {
 }
 
 .posts-section {
-  background-color: lightGrey;
+  /* background-color: lightGrey; */
   height: 80%;
   margin-top: 20px;
 }
 
 #col1 {
-  background-color: teal;
+  /* background-color: teal; */
   overflow: scroll;
 }
 
@@ -21,7 +21,7 @@ html, body {
 
 .post {
   background-color: white;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-left: 25%;
   margin-right: 25%;
   height: 30%;

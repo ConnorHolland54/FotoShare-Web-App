@@ -9,6 +9,7 @@ let currentUser = null
         console.log("Signed In")
         redirectToHome()
         navbar.hidden = false;
+        postSection.hidden = false;
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -42,6 +43,7 @@ let currentUser = null
       handleSignIn()
       handleSignUp()
       navbar.hidden = true;
+      postSection.hidden = true;
     }).catch((error) => {
       // An error happened.
     });

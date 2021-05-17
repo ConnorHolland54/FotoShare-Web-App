@@ -1,13 +1,13 @@
 // Variables
-let homepageSection = document.createElement('section')
 let navbar = document.getElementById('nav-bar')
+let postSection = document.getElementById('PS')
 // End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
   if (storage.getItem('userUID')) {
     navbar.hidden = false
+    postSection.hidden = false
     // createHomePage()
-    posts().then(data => console.log(data))
   } else {
     createLoginSignupForm()
     handleSignIn()
@@ -90,37 +90,37 @@ function logoutListener() {
   })
 }
 
+function createPostHTML(posts) {
+  for(let post of posts) {
+    let postsCol = document.getElementById('col1')
+    let post = document.createElement('div')
+    post.classList.add('post')
 
-function createHomePage() {
-
-  homepageSection.id = "homePage"
-
-  let head = document.createElement('h1')
-  head.innerText = storage.getItem('userEmail')
-
-  document.body.append(homepageSection)
-  homepageSection.append(head)
-
-
-  homepageSection.style.backgroundColor = "teal";
-  homepageSection.style.height = "90%";
+    let image = document.createElement('img')
+    image.src = "https://cdn.pixabay.com/photo/2015/03/26/09/47/sky-690293_960_720.jpg"
+    image.style.width = "100%";
+    image.style.height = "70%";
+    let label = document.createElement('label')
+    label.append(document.createElement('br'))
+    label.innerText = "Hello World"
+    label.style.height = "19%"
+    let commentsBtn = document.createElement('button')
+    commentsBtn.innerText = "Comments"
+    post.append(image)
+    post.append(label)
+    label.after(document.createElement('br'))
+    post.append(commentsBtn)
+    postsCol.append(post)
+  }
 }
 
-function removeHomepage() {
-  let homepage = document.getElementById('homePage')
-  homepage.remove()
-}
 
 
 // Fetch Posts Test
-async function hello() {
+async function getPostsData() {
   return await fetch("http://localhost:3000/posts")
   .then(resp => resp.json())
-  .then((data) => data)
-}
-
-async function posts() {
-  return await hello().then((data) => {
+  .then((data) => {
     let posts = [];
     for(let post of data) {
       let p = new Post(post.id, post.image_url, post.user_id)
@@ -130,6 +130,10 @@ async function posts() {
     return posts
   })
 }
+
+getPostsData().then(posts => {
+  createPostHTML(posts)
+})
 
 
 //
