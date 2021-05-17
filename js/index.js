@@ -90,8 +90,15 @@ function logoutListener() {
   })
 }
 
-function createPostHTML(posts) {
-  for(let post of posts) {
+function commentsButtonListener(btn) {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log(e)
+  })
+}
+
+function createPostHTML(x) {
+  console.log(x.caption)
     let postsCol = document.getElementById('col1')
     let post = document.createElement('div')
     post.classList.add('post')
@@ -102,17 +109,22 @@ function createPostHTML(posts) {
     image.style.height = "70%";
     let label = document.createElement('label')
     label.append(document.createElement('br'))
-    label.innerText = "Hello World"
-    label.style.height = "19%"
+    label.innerText = x.caption
+    label.style.height = "15%"
+    label.style.width = '100%'
+    label.style.backgroundColor = 'lightGrey'
     let commentsBtn = document.createElement('button')
     commentsBtn.innerText = "Comments"
+    commentsBtn.id = "CB"
     post.append(image)
     post.append(label)
     label.after(document.createElement('br'))
     post.append(commentsBtn)
     postsCol.append(post)
-  }
+    commentsButtonListener(commentsBtn)
 }
+
+
 
 
 
@@ -121,18 +133,21 @@ async function getPostsData() {
   return await fetch("http://localhost:3000/posts")
   .then(resp => resp.json())
   .then((data) => {
-    let posts = [];
+    let allPosts = [];
     for(let post of data) {
-      let p = new Post(post.id, post.image_url, post.user_id)
+      let p = new Post(post.id, post.image_url, post.user_id, post.caption)
       p.addComments(post.comments)
-      posts.push(p)
+      allPosts.push(p)
     }
-    return posts
+    return allPosts
   })
 }
 
-getPostsData().then(posts => {
-  createPostHTML(posts)
+getPostsData().then((posts) => {
+  for(let post of posts) {
+    console.log(post)
+    createPostHTML(post)
+  }
 })
 
 

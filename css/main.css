@@ -6,7 +6,7 @@ html, body {
 
 .posts-section {
   /* background-color: lightGrey; */
-  height: 80%;
+  height: 90%;
   margin-top: 20px;
 }
 
@@ -20,8 +20,7 @@ html, body {
 }
 
 .post {
-  background-color: white;
-  margin-top: 20px;
+  margin-top: 5%;
   margin-left: 25%;
   margin-right: 25%;
   height: 30%;

@@ -1,9 +1,10 @@
 
 class Post {
-  constructor(id, image_url, user_id) {
+  constructor(id, image_url, user_id, caption) {
     this.id = id;
     this.image_url = image_url;
     this.user_id = user_id;
+    this.caption = caption;
     this.comments = []
   }
 
