@@ -93,15 +93,15 @@ function logoutListener() {
 function commentsButtonListener(btn) {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log(e)
+    console.log(e.path[1].id)
   })
 }
 
 function createPostHTML(x) {
-  console.log(x.caption)
     let postsCol = document.getElementById('col1')
     let post = document.createElement('div')
     post.classList.add('post')
+    post.id = x.id
 
     let image = document.createElement('img')
     image.src = "https://cdn.pixabay.com/photo/2015/03/26/09/47/sky-690293_960_720.jpg"
@@ -145,7 +145,6 @@ async function getPostsData() {
 
 getPostsData().then((posts) => {
   for(let post of posts) {
-    console.log(post)
     createPostHTML(post)
   }
 })

@@ -52,6 +52,7 @@ let currentUser = null
 function redirectToHome() {
   storage.setItem('userEmail', fb.auth().currentUser.email)
   storage.setItem('userUID', fb.auth().currentUser.uid)
+  fetchUser()
   removeSignIn();
 }
 
@@ -60,6 +61,13 @@ function removeSignIn() {
   loginSection.remove()
 }
 
+function fetchUser() {
+  fetch(`http://localhost:3000/users/${storage.getItem('userUID')}`).then(resp => resp.json())
+    .then(user => {
+      console.log(user[0].id)
+      storage.setItem('userID', user[0].id)
+    })
+}
 
 // Fetch for creating a user
 function CreateUser(email, uid) {
