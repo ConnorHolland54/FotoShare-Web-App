@@ -3,6 +3,7 @@ let navbar = document.getElementById('nav-bar')
 let postSection = document.getElementById('PS')
 let newPostBtn = document.getElementById('NewPost')
 let createNewPostSection = document.getElementById('NP-section')
+let newPostForm = document.getElementById('new-post-form')
 // End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,6 +26,8 @@ function handleNewPostListener() {
     e.preventDefault();
     postSection.hidden = true;
     createNewPostSection.hidden = false;
+    addCreatePostFormListener()
+    handleSelectionListenerOnImages()
   })
 }
 
@@ -148,6 +151,57 @@ function homeListener() {
 function hideNewPostSection() {
   createNewPostSection.hidden = true;
   postSection.hidden = false;
+}
+
+// Create a new posts
+function addCreatePostFormListener() {
+  newPostForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let image = e.target.children[7].src
+    let caption = e.target.children[4].value
+    console.log(image)
+    console.log(caption)
+    createPost(image, caption)
+  })
+}
+
+// handle image selection
+function handleSelectionListenerOnImages() {
+  let images = document.getElementsByClassName('images')
+  for(let image of images) {
+    image.addEventListener('click', () => {
+      let currentImage = document.getElementById('currentPhoto')
+      currentImage.style.width = '30%';
+      currentImage.style.heigh = '35%'
+      currentImage.src = image.src
+    })
+  }
+}
+
+// post request to create a post
+function createPost(imageUrl, caption) {
+  let config = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      user_id: storage.getItem('userID'),
+      caption: caption,
+      image_url: imageUrl
+    })
+  }
+  fetch('http://localhost:3000/posts', config)
+  .then(resp => resp.json())
+  .then(data => {
+    let p = new Post(data.id, data.image_url, data.user_id, data.caption)
+    if(data.comments) {
+    p.addComments(data.comments)
+    }
+    hideNewPostSection()
+    createPostHTML(p)
+  })
 }
 
 // Fetch Posts Test
