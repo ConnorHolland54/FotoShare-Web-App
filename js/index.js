@@ -195,6 +195,7 @@ function createPost(imageUrl, caption) {
   fetch('http://localhost:3000/posts', config)
   .then(resp => resp.json())
   .then(data => {
+    console.log("stuff")
     let p = new Post(data.id, data.image_url, data.user_id, data.caption)
     if(data.comments) {
     p.addComments(data.comments)
