@@ -1,6 +1,8 @@
 // Variables
 let navbar = document.getElementById('nav-bar')
 let postSection = document.getElementById('PS')
+let newPostBtn = document.getElementById('NewPost')
+let createNewPostSection = document.getElementById('NP-section')
 // End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,7 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
     handleSignUp()
   }
   logoutListener()
+  handleNewPostListener()
+  homeListener()
 })
+
+function handleNewPostListener() {
+  newPostBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    postSection.hidden = true;
+    createNewPostSection.hidden = false;
+  })
+}
 
 function createLoginSignupForm() {
     let loginSection = document.createElement('section')
@@ -124,9 +136,19 @@ function createPostHTML(x) {
     commentsButtonListener(commentsBtn)
 }
 
+function homeListener() {
+  let btn = document.getElementById('fotoshareBtn')
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log("Stuff")
+    hideNewPostSection()
+  })
+}
 
-
-
+function hideNewPostSection() {
+  createNewPostSection.hidden = true;
+  postSection.hidden = false;
+}
 
 // Fetch Posts Test
 async function getPostsData() {

@@ -29,3 +29,24 @@ html, body {
 .comments-btn {
   height: 30px;
 }
+
+.new-post-section {
+  background-color: teal;
+  height: 50%;
+  margin-top: 50px;
+}
+
+.my-photos {
+  background-color: white;
+  overflow: scroll;
+}
+
+.create-post-form {
+  background-color: lightGrey;
+}
+
+.images {
+  width: 70%;
+  height: 40%;
+  margin-top: 5%;
+}
