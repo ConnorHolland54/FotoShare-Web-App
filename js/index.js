@@ -4,6 +4,7 @@ let postSection = document.getElementById('PS')
 let newPostBtn = document.getElementById('NewPost')
 let createNewPostSection = document.getElementById('NP-section')
 let newPostForm = document.getElementById('new-post-form')
+let cache = {}
 // End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     handleSignIn()
     handleSignUp()
   }
+  addCreatePostFormListener()
   logoutListener()
   handleNewPostListener()
   homeListener()
@@ -26,7 +28,6 @@ function handleNewPostListener() {
     e.preventDefault();
     postSection.hidden = true;
     createNewPostSection.hidden = false;
-    addCreatePostFormListener()
     handleSelectionListenerOnImages()
   })
 }
@@ -119,7 +120,7 @@ function createPostHTML(x) {
     post.id = x.id
 
     let image = document.createElement('img')
-    image.src = "https://cdn.pixabay.com/photo/2015/03/26/09/47/sky-690293_960_720.jpg"
+    image.src = x.image_url
     image.style.width = "100%";
     image.style.height = "70%";
     let label = document.createElement('label')
@@ -135,7 +136,7 @@ function createPostHTML(x) {
     post.append(label)
     label.after(document.createElement('br'))
     post.append(commentsBtn)
-    postsCol.append(post)
+    postsCol.prepend(post)
     commentsButtonListener(commentsBtn)
 }
 
@@ -143,7 +144,6 @@ function homeListener() {
   let btn = document.getElementById('fotoshareBtn')
   btn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log("Stuff")
     hideNewPostSection()
   })
 }
@@ -157,11 +157,10 @@ function hideNewPostSection() {
 function addCreatePostFormListener() {
   newPostForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    let image = e.target.children[7].src
+    let image = document.getElementById('currentPhoto')
     let caption = e.target.children[4].value
-    console.log(image)
-    console.log(caption)
-    createPost(image, caption)
+    createPost(image.src, caption)
+    // window.location.reload()
   })
 }
 
@@ -200,8 +199,14 @@ function createPost(imageUrl, caption) {
     if(data.comments) {
     p.addComments(data.comments)
     }
+    let image = document.getElementById('currentPhoto')
+    let input = document.getElementsByTagName('input')
     hideNewPostSection()
     createPostHTML(p)
+    createNewPostSection.hidden = true
+    postSection.hidden = false;
+    input[0].value = ""
+    image.src = ""
   })
 }
 
