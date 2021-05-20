@@ -20,7 +20,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   addCreatePostFormListener()
   aListener()
+  postSectionlistener
+
+
+
+  postSection.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (e.target.classList[0] == 'remove-post') {
+      console.log("Remove")
+      let postId = e.target.parentElement.id
+      deletePost(postId).then(response => {
+        console.log("Deleted")
+        let post = document.getElementById(`${postId}`)
+        post.remove();
+      })
+    }
+  })
 })
+
+
+
+function postSectionlistener() {
+  postSection.addEventListener('click', (e) => {
+    console.log(e.target.id)
+  })
+}
 
 function aListener() {
   let links = document.querySelectorAll('a')
@@ -32,9 +56,13 @@ function aListener() {
         postsCol.innerHTML = "";
         getMyPosts().then(posts => {
           for(let post of posts) {
-            createPostHTML(post)
+            createPostHTML(post, true)
           }
         })
+        if(createNewPostSection.hidden == false) {
+          createNewPostSection.hidden = true
+          postSection.hidden = false
+        }
       } else if (e.target.id == 'logout-btn') {
         signOut()
       } else if (e.target.id == 'NewPost') {
@@ -43,6 +71,7 @@ function aListener() {
         handleSelectionListenerOnImages()
       } else if (e.target.id == 'fotoshareBtn') {
         hideNewPostSection()
+        postsCol.innerHTML = "";
         getPostsData().then((posts) => {
           for(let post of posts) {
             createPostHTML(post)
@@ -57,8 +86,9 @@ function aListener() {
 function createLoginSignupForm() {
     let loginSection = document.createElement('section')
     loginSection.id = 'login-signup-form'
+    loginSection.classList.add("container")
     loginSection.innerHTML = `<h1>Welcome to FotoShare!</h1>`
-    document.body.append(loginSection)
+    document.body.prepend(loginSection)
 
     let form = document.createElement('form')
     form.id = "login-form"
@@ -77,11 +107,11 @@ function createLoginSignupForm() {
     loginSection.append(form)
     let btn = document.querySelector('input[name="login"]')
     btn.style.marginTop = '4%';
-    loginSection.style.backgroundColor = 'teal';
+    // loginSection.style.backgroundColor = 'teal';
     loginSection.style.textAlign = 'center';
-    loginSection.style.marginTop = '10%';
-    loginSection.style.marginLeft = '25%';
-    loginSection.style.marginRight = '25%';
+    // loginSection.style.marginTop = '10%';
+    // loginSection.style.marginLeft = '25%';
+    // loginSection.style.marginRight = '25%';
 }
 
 function handleSignIn() {
@@ -127,7 +157,7 @@ function commentsButtonListener(btn) {
   })
 }
 
-function createPostHTML(x) {
+function createPostHTML(x, myPost = false) {
     // let postsCol = document.getElementById('col1')
     let post = document.createElement('div')
     post.classList.add('post')
@@ -146,12 +176,18 @@ function createPostHTML(x) {
     let commentsBtn = document.createElement('button')
     commentsBtn.innerText = "Comments"
     commentsBtn.id = "CB"
+    let br = document.createElement('br')
+    let removeBtn = document.createElement('button')
+    removeBtn.innerText = 'Remove'
+    removeBtn.classList.add('remove-post')
     post.append(image)
     post.append(label)
     label.after(document.createElement('br'))
     post.append(commentsBtn)
+    if(myPost == true) {
+      post.append(br, br, removeBtn)
+    }
     postsCol.prepend(post)
-    commentsButtonListener(commentsBtn)
 }
 
 
@@ -246,7 +282,6 @@ async function getMyPosts() {
   return await fetch(`http://localhost:3000/users/${currentUser.id}/posts`)
   .then(resp => resp.json())
   .then((data) => {
-    console.log(data)
     let allPosts = [];
     for(let post of data) {
       let p = new Post(post.id, post.image_url, post.user_id, post.caption)
@@ -255,4 +290,11 @@ async function getMyPosts() {
     }
     return allPosts
   })
+}
+
+async function deletePost(id) {
+  let config = {
+    method: 'DELETE'
+  }
+  return await fetch(`http://localhost:3000/posts/${id}`, config).then(resp => resp.json).then(data => data)
 }

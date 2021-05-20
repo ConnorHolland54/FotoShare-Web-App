@@ -1,13 +1,20 @@
 html, body {
   height: 100%;
   padding: 0;
-  background-color: lightBlue;
+  background-image: url(https://images.unsplash.com/photo-1601529686322-350562cc5d67?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mjl8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .posts-section {
   /* background-color: lightGrey; */
   height: 90%;
   margin-top: 20px;
+}
+
+#login-signup-form {
+  color: white;
 }
 
 #col1 {
