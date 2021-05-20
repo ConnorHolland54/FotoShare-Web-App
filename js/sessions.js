@@ -7,9 +7,10 @@ let currentUser = null
         // Signed in
         var user = userCredential.user;
         console.log("Signed In")
-        redirectToHome()
-        navbar.hidden = false;
+        fetchUser(fb.auth().currentUser.uid)
+        navbar.style.display = "block";
         postSection.hidden = false;
+        removeSignIn()
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -37,7 +38,7 @@ let currentUser = null
   function signOut() {
     firebase.auth().signOut().then(() => {
       // Sign-out successful.
-      storage.clear()
+      currentUser = null
       console.log("Signed Out")
       createLoginSignupForm()
       handleSignIn()
@@ -49,23 +50,17 @@ let currentUser = null
     });
 }
 
-function redirectToHome() {
-  storage.setItem('userEmail', fb.auth().currentUser.email)
-  storage.setItem('userUID', fb.auth().currentUser.uid)
-  fetchUser()
-  removeSignIn();
-}
 
 function removeSignIn() {
   let loginSection = document.getElementById('login-signup-form')
   loginSection.remove()
 }
 
-function fetchUser() {
-  fetch(`http://localhost:3000/users/${storage.getItem('userUID')}`).then(resp => resp.json())
+function fetchUser(uid) {
+  fetch(`http://localhost:3000/users/${uid}`).then(resp => resp.json())
     .then(user => {
-      console.log(user[0].id)
-      storage.setItem('userID', user[0].id)
+      currentUser = user[0]
+      console.log(currentUser)
     })
 }
 

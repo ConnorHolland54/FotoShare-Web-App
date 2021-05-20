@@ -9,11 +9,11 @@ let postsCol = document.getElementById('col1')
 // End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (storage.getItem('userUID')) {
-    navbar.hidden = false
+  if (currentUser) {
+    navbar.style.display = 'block';
     postSection.hidden = false
-    // createHomePage()
   } else {
+    navbar.style.display = 'none';
     createLoginSignupForm()
     handleSignIn()
     handleSignUp()
@@ -30,6 +30,11 @@ function aListener() {
       if(e.target.id == "my-posts") {
         console.log("my posts")
         postsCol.innerHTML = "";
+        getMyPosts().then(posts => {
+          for(let post of posts) {
+            createPostHTML(post)
+          }
+        })
       } else if (e.target.id == 'logout-btn') {
         signOut()
       } else if (e.target.id == 'NewPost') {
@@ -38,6 +43,11 @@ function aListener() {
         handleSelectionListenerOnImages()
       } else if (e.target.id == 'fotoshareBtn') {
         hideNewPostSection()
+        getPostsData().then((posts) => {
+          for(let post of posts) {
+            createPostHTML(post)
+          }
+        })
       }
     })
   }
@@ -184,7 +194,7 @@ function createPost(imageUrl, caption) {
       'Accept': 'application/json'
     },
     body: JSON.stringify({
-      user_id: storage.getItem('userID'),
+      user_id: currentUser.id,
       caption: caption,
       image_url: imageUrl
     })
@@ -231,9 +241,18 @@ getPostsData().then((posts) => {
 })
 
 
-//fetch my posts
-// async function getMyPosts() {
-//   return await fetch(`http://localhost:3000/users/${storage.getItem('userID')}/posts`)
-//   .then(resp => resp.json())
-//   .then(data => console.log(data))
-// }
+// fetch my posts
+async function getMyPosts() {
+  return await fetch(`http://localhost:3000/users/${currentUser.id}/posts`)
+  .then(resp => resp.json())
+  .then((data) => {
+    console.log(data)
+    let allPosts = [];
+    for(let post of data) {
+      let p = new Post(post.id, post.image_url, post.user_id, post.caption)
+      p.addComments(post.comments)
+      allPosts.push(p)
+    }
+    return allPosts
+  })
+}
