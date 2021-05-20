@@ -18,19 +18,32 @@ document.addEventListener('DOMContentLoaded', () => {
     handleSignUp()
   }
   addCreatePostFormListener()
-  logoutListener()
-  handleNewPostListener()
-  homeListener()
+  aListener()
 })
 
-function handleNewPostListener() {
-  newPostBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    postSection.hidden = true;
-    createNewPostSection.hidden = false;
-    handleSelectionListenerOnImages()
-  })
+function aListener() {
+  let links = document.querySelectorAll('a')
+  for(let link of links) {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log(e.target.id)
+      if(e.target.id == "my-posts") {
+        console.log("my posts")
+      } else if (e.target.id == 'logout-btn') {
+        console.log('logout')
+        signOut()
+      } else if (e.target.id == 'NewPost') {
+        console.log('new post')
+        postSection.hidden = true;
+        createNewPostSection.hidden = false;
+        handleSelectionListenerOnImages()
+      } else if (e.target.id == 'fotoshareBtn') {
+        hideNewPostSection()
+      }
+    })
+  }
 }
+
 
 function createLoginSignupForm() {
     let loginSection = document.createElement('section')
@@ -98,14 +111,6 @@ function handleSignUp() {
   })
 }
 
-function logoutListener() {
-  let btn = document.getElementById('logout-btn')
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    signOut()
-  })
-}
-
 function commentsButtonListener(btn) {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -140,13 +145,6 @@ function createPostHTML(x) {
     commentsButtonListener(commentsBtn)
 }
 
-function homeListener() {
-  let btn = document.getElementById('fotoshareBtn')
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    hideNewPostSection()
-  })
-}
 
 function hideNewPostSection() {
   createNewPostSection.hidden = true;
@@ -159,8 +157,8 @@ function addCreatePostFormListener() {
     e.preventDefault();
     let image = document.getElementById('currentPhoto')
     let caption = e.target.children[4].value
+    let imageFile = document.getElementById('image-file')
     createPost(image.src, caption)
-    // window.location.reload()
   })
 }
 
