@@ -4,7 +4,8 @@ let postSection = document.getElementById('PS')
 let newPostBtn = document.getElementById('NewPost')
 let createNewPostSection = document.getElementById('NP-section')
 let newPostForm = document.getElementById('new-post-form')
-let cache = {}
+let postsCol = document.getElementById('col1')
+
 // End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,14 +27,12 @@ function aListener() {
   for(let link of links) {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log(e.target.id)
       if(e.target.id == "my-posts") {
         console.log("my posts")
+        postsCol.innerHTML = "";
       } else if (e.target.id == 'logout-btn') {
-        console.log('logout')
         signOut()
       } else if (e.target.id == 'NewPost') {
-        console.log('new post')
         postSection.hidden = true;
         createNewPostSection.hidden = false;
         handleSelectionListenerOnImages()
@@ -119,7 +118,7 @@ function commentsButtonListener(btn) {
 }
 
 function createPostHTML(x) {
-    let postsCol = document.getElementById('col1')
+    // let postsCol = document.getElementById('col1')
     let post = document.createElement('div')
     post.classList.add('post')
     post.id = x.id
@@ -175,6 +174,7 @@ function handleSelectionListenerOnImages() {
   }
 }
 
+
 // post request to create a post
 function createPost(imageUrl, caption) {
   let config = {
@@ -208,6 +208,7 @@ function createPost(imageUrl, caption) {
   })
 }
 
+
 // Fetch Posts Test
 async function getPostsData() {
   return await fetch("http://localhost:3000/posts")
@@ -230,4 +231,9 @@ getPostsData().then((posts) => {
 })
 
 
-//
+//fetch my posts
+// async function getMyPosts() {
+//   return await fetch(`http://localhost:3000/users/${storage.getItem('userID')}/posts`)
+//   .then(resp => resp.json())
+//   .then(data => console.log(data))
+// }

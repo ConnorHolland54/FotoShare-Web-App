@@ -11,13 +11,17 @@ html, body {
 }
 
 #col1 {
-  /* background-color: teal; */
+  background-color: white;
   overflow: scroll;
+  border-radius: 50px;
+  border-style: solid;
+  border-color: black;
 }
 
 #col1::-webkit-scrollbar {
   display: none;
 }
+
 
 
 .post {
