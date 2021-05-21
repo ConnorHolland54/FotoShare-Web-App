@@ -62,3 +62,12 @@ html, body {
   height: 40%;
   margin-top: 5%;
 }
+
+.modal-body {
+  overflow: scroll;
+  height: 200px;
+}
+
+.modal-body::-webkit-scrollbar {
+  display: none;
+}

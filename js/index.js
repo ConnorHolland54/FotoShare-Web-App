@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let post = document.getElementById(`${postId}`)
         post.remove();
       })
+    } else if (e.target.id == 'CB') {
+      let modal = document.getElementById('exampleModal');
     }
   })
 })
@@ -176,6 +178,8 @@ function createPostHTML(x, myPost = false) {
     let commentsBtn = document.createElement('button')
     commentsBtn.innerText = "Comments"
     commentsBtn.id = "CB"
+    commentsBtn.setAttribute('data-bs-toggle', 'modal');
+    commentsBtn.setAttribute('data-bs-target', '#exampleModal')
     let br = document.createElement('br')
     let removeBtn = document.createElement('button')
     removeBtn.innerText = 'Remove'
