@@ -5,6 +5,8 @@ let newPostBtn = document.getElementById('NewPost')
 let createNewPostSection = document.getElementById('NP-section')
 let newPostForm = document.getElementById('new-post-form')
 let postsCol = document.getElementById('col1')
+let modalBody = document.getElementsByClassName('modal-body')[0]
+let newCommentForm =document.getElementById('new-comment')
 
 let allPosts = {}
 
@@ -19,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createLoginSignupForm()
     handleSignIn()
     handleSignUp()
+    newCommentListener();
   }
   addCreatePostFormListener()
   aListener()
@@ -37,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         post.remove();
       })
     } else if (e.target.id == 'CB') {
-      let modalBody = document.getElementsByClassName('modal-body')[0]
       modalBody.innerHTML = ""
       let post = allPosts[e.target.parentElement.id]
+      document.getElementById('PI').value = post.id
       for(let comment of post.comments) {
        let div = document.createElement('div')
        div.innerText = comment.content
@@ -238,6 +241,16 @@ function handleSelectionListenerOnImages() {
   }
 }
 
+// new comment form listener
+function newCommentListener() {
+  newCommentForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let postId = document.getElementById('PI').value
+    let content = document.getElementById('content').value
+    createComment(content, postId)
+  })
+}
+
 
 // post request to create a post
 function createPost(imageUrl, caption) {
@@ -309,6 +322,32 @@ async function getMyPosts() {
     return allPosts
   })
 }
+
+// Create new comment
+function createComment(content, postId) {
+  let config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      post_id: postId,
+      content: content,
+      user_id: currentUser.id
+    })
+  }
+
+  fetch('http://localhost:3000/comments', config)
+  .then(resp => resp.json())
+  .then(data => {
+    let div = document.createElement('div')
+       div.innerText = data.content
+      modalBody.prepend(div)
+      newCommentForm.reset()
+  })
+}
+
 
 async function deletePost(id) {
   let config = {
