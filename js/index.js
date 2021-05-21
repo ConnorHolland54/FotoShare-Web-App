@@ -247,7 +247,9 @@ function newCommentListener() {
     e.preventDefault();
     let postId = document.getElementById('PI').value
     let content = document.getElementById('content').value
+    let post = allPosts[postId]
     createComment(content, postId)
+    post.comments.push(new Comment(currentUser.id, content))
   })
 }
 
