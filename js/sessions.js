@@ -11,6 +11,12 @@ let currentUser = null
         navbar.style.display = "block";
         postSection.hidden = false;
         removeSignIn()
+        getPostsData().then((posts) => {
+          for(let post of posts) {
+            allPosts[post.id] = post
+            createPostHTML(post)
+          }
+        })
       })
       .catch((error) => {
         var errorCode = error.code;

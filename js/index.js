@@ -6,6 +6,8 @@ let createNewPostSection = document.getElementById('NP-section')
 let newPostForm = document.getElementById('new-post-form')
 let postsCol = document.getElementById('col1')
 
+let allPosts = {}
+
 // End of variables
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,6 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
         post.remove();
       })
     } else if (e.target.id == 'CB') {
+      let modalBody = document.getElementsByClassName('modal-body')[0]
+      modalBody.innerHTML = ""
+      let post = allPosts[e.target.parentElement.id]
+      for(let comment of post.comments) {
+       let div = document.createElement('div')
+       div.innerText = comment.content
+        modalBody.prepend(div)
+      }
       let modal = document.getElementById('exampleModal');
     }
   })
@@ -58,6 +68,8 @@ function aListener() {
         postsCol.innerHTML = "";
         getMyPosts().then(posts => {
           for(let post of posts) {
+            allPosts = {}
+            allPosts[post.id] = post
             createPostHTML(post, true)
           }
         })
@@ -76,6 +88,8 @@ function aListener() {
         postsCol.innerHTML = "";
         getPostsData().then((posts) => {
           for(let post of posts) {
+            allPosts = {}
+            allPosts[post.id] = post
             createPostHTML(post)
           }
         })
@@ -274,11 +288,11 @@ async function getPostsData() {
   })
 }
 
-getPostsData().then((posts) => {
-  for(let post of posts) {
-    createPostHTML(post)
-  }
-})
+// getPostsData().then((posts) => {
+//   for(let post of posts) {
+//     createPostHTML(post)
+//   }
+// })
 
 
 // fetch my posts
