@@ -72,7 +72,7 @@ html, body {
 }
 
 .modal-body::-webkit-scrollbar {
-  display: none;
+  /* display: none; */
 }
 
 #new-comment {
