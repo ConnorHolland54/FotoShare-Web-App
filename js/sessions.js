@@ -10,6 +10,8 @@ let currentUser = null
         fetchUser(fb.auth().currentUser.uid)
         navbar.style.display = "block";
         postSection.hidden = false;
+        navbar.hidden = false
+        postsCol.innerHTML = ""
         removeSignIn()
         getPostsData().then((posts) => {
           for(let post of posts) {
